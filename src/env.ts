@@ -7,6 +7,8 @@ export const env = createEnv({
         UPLOADTHING_TOKEN: z.string(),
 
         BETTER_AUTH_SECRET: z.string(),
+        RESEND_API_KEY: z.string(),
+        EMAIL_TEST: z.email(),
     },
     client: {
         NEXT_PUBLIC_BETTER_AUTH_URL: z.url(),
