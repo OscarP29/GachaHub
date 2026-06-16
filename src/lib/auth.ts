@@ -17,6 +17,7 @@ export const auth = betterAuth({
     emailAndPassword: {
         enabled: true,
         requireEmailVerification: true,
+        revokeSessionsOnPasswordReset: true,
         sendResetPassword: async ({ user, url, token }, request) => {
             void resend.emails.send({
                 from: "onboarding@resend.dev",

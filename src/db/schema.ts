@@ -8,7 +8,6 @@ import {
     integer,
     pgEnum,
 } from "drizzle-orm/pg-core";
-import { title } from "process";
 
 //BETTER AUTH TABLES
 export const user = pgTable("user", {
@@ -114,8 +113,8 @@ export const games = pgTable("games", {
         .references(() => user.id, { onDelete: "cascade" })
         .notNull(),
     title: text().notNull(),
-    imageUrl: text(),
-    createdAt: timestamp("created_at").defaultNow(),
+    imageUrl: text().notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const roleEnum = pgEnum("role", ["dps", "sub_dps", "support", "tank"]);
@@ -129,12 +128,12 @@ export const characters = pgTable("characters", {
         .references(() => user.id, { onDelete: "cascade" })
         .notNull(),
     name: text().notNull(),
-    imageUrl: text(),
+    imageUrl: text().notNull(),
     role: roleEnum().notNull(),
     rarity: text(),
     owned: boolean().default(true),
     equipmentNotes: text(),
-    createdAt: timestamp("created_at").defaultNow(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const teamCategories = pgTable("team_categories", {
@@ -147,7 +146,7 @@ export const teamCategories = pgTable("team_categories", {
         .notNull(),
     name: text().notNull(),
     order: integer(),
-    createdAt: timestamp("created_at").defaultNow(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const teams = pgTable("teams", {
@@ -163,7 +162,7 @@ export const teams = pgTable("teams", {
         .notNull(),
     title: text().notNull(),
     notes: text(),
-    createdAt: timestamp("created_at").defaultNow(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
 export const teamMembers = pgTable("team_members", {
