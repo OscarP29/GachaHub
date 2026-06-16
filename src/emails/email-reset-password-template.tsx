@@ -10,7 +10,7 @@ import {
     Heading,
 } from "react-email";
 
-export default function EmailVerifyTemplate({ url }: { url: string }) {
+export default function EmailResetPasswordTemplate({ url }: { url: string }) {
     return (
         <Html>
             <Head />
@@ -27,38 +27,44 @@ export default function EmailVerifyTemplate({ url }: { url: string }) {
             >
                 <Body>
                     <Container>
-                        <Section className="">
-                            {/* <Img
-                                src="https://a5tvuzveyi.ufs.sh/f/T0Wi2JdjEWa715Vwg8oCAbV5jfvU0MwY7gEXGISrDd2seyh9"
-                                alt="Gacha Hub"
-                                width="64"
-                                height="64"
-                            /> */}
+                        <Section>
                             <Text className="font-semibold text-xl text-primary">
                                 Gacha Hub
                             </Text>
                         </Section>
+
                         <Section>
-                            <Heading>¡Ya casi está listo tu registro!</Heading>
+                            <Heading>Restablece tu contraseña</Heading>
 
                             <Text>
-                                Tu cuenta ha sido creada correctamente. Solo
-                                falta verificar tu dirección de correo
-                                electrónico.
+                                Hemos recibido una solicitud para restablecer la
+                                contraseña de tu cuenta.
+                            </Text>
+
+                            <Text>
+                                Haz clic en el siguiente botón para crear una
+                                nueva contraseña y recuperar el acceso a tu
+                                cuenta.
                             </Text>
 
                             <Button
                                 href={url}
                                 className="bg-primary text-white px-6 py-3 rounded-lg font-medium"
                             >
-                                Verificar mi cuenta
+                                Restablecer contraseña
                             </Button>
 
                             <Text className="text-slate-500 text-sm mt-6">
-                                Por seguridad, este enlace puede expirar después
-                                de un tiempo. Si necesitas uno nuevo, puedes
-                                solicitarlo desde la página de inicio de sesión.
-                                ¡Bienvenido!
+                                Si no solicitaste este cambio, puedes ignorar
+                                este correo de forma segura. Tu contraseña
+                                actual seguirá siendo válida hasta que completes
+                                el proceso de restablecimiento.
+                            </Text>
+
+                            <Text className="text-slate-500 text-sm">
+                                Por seguridad, este enlace expirará después de
+                                un tiempo. Si expira, podrás solicitar uno nuevo
+                                desde la página de inicio de sesión.
                             </Text>
                         </Section>
                     </Container>

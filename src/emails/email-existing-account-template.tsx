@@ -10,7 +10,7 @@ import {
     Heading,
 } from "react-email";
 
-export default function EmailVerifyTemplate({ url }: { url: string }) {
+export default function EmailExistingAccountTemplate({ url }: { url: string }) {
     return (
         <Html>
             <Head />
@@ -27,38 +27,45 @@ export default function EmailVerifyTemplate({ url }: { url: string }) {
             >
                 <Body>
                     <Container>
-                        <Section className="">
-                            {/* <Img
-                                src="https://a5tvuzveyi.ufs.sh/f/T0Wi2JdjEWa715Vwg8oCAbV5jfvU0MwY7gEXGISrDd2seyh9"
-                                alt="Gacha Hub"
-                                width="64"
-                                height="64"
-                            /> */}
+                        <Section>
                             <Text className="font-semibold text-xl text-primary">
                                 Gacha Hub
                             </Text>
                         </Section>
+
                         <Section>
-                            <Heading>¡Ya casi está listo tu registro!</Heading>
+                            <Heading>
+                                Ya existe una cuenta con este correo
+                            </Heading>
 
                             <Text>
-                                Tu cuenta ha sido creada correctamente. Solo
-                                falta verificar tu dirección de correo
-                                electrónico.
+                                Hemos detectado un intento de registro
+                                utilizando esta dirección de correo electrónico,
+                                pero ya existe una cuenta asociada a ella.
+                            </Text>
+
+                            <Text>
+                                Si ya tienes una cuenta en Gacha Hub, puedes
+                                iniciar sesión normalmente. Si originalmente te
+                                registraste con Google, utiliza la opción{" "}
+                                <strong>Continuar con Google</strong>.
                             </Text>
 
                             <Button
                                 href={url}
                                 className="bg-primary text-white px-6 py-3 rounded-lg font-medium"
                             >
-                                Verificar mi cuenta
+                                Iniciar sesión
                             </Button>
 
                             <Text className="text-slate-500 text-sm mt-6">
-                                Por seguridad, este enlace puede expirar después
-                                de un tiempo. Si necesitas uno nuevo, puedes
-                                solicitarlo desde la página de inicio de sesión.
-                                ¡Bienvenido!
+                                ¿Olvidaste tu contraseña? Puedes restablecerla
+                                desde la página de inicio de sesión.
+                            </Text>
+
+                            <Text className="text-slate-500 text-sm">
+                                Si no intentaste crear una cuenta, puedes
+                                ignorar este mensaje de forma segura.
                             </Text>
                         </Section>
                     </Container>

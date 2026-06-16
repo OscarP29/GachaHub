@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 import Link from "next/link";
 
+export const metadata: Metadata = {
+    title: "Correo enviado",
+    description:
+        "Hemos enviado un correo electrónico con las instrucciones necesarias. Revisa tu bandeja de entrada y la carpeta de spam.",
+};
 type PageProps = {
     searchParams: Promise<{
         email?: string;

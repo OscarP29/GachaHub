@@ -1,6 +1,12 @@
 import { Button } from "@/components/ui/button";
+import { Metadata } from "next";
 import Link from "next/link";
 
+export const metadata: Metadata = {
+    title: "Correo verificado",
+    description:
+        "Tu dirección de correo electrónico ha sido verificada correctamente. Ya puedes acceder a todas las funciones de tu cuenta.",
+};
 export default function Page() {
     return (
         <div className="flex min-h-screen items-center justify-center px-6">

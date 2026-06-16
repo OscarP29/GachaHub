@@ -13,6 +13,11 @@ import z from "zod";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
+import { redirect } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
+import InputPassword from "./input-password";
+import GoogleButton from "./google-button";
 
 const loginSchema = z.object({
     email: z.email("Ingresa un email valido"),
@@ -29,8 +34,24 @@ export default function FormLogin() {
         },
     });
     const submitHandler = async (data: z.infer<typeof loginSchema>) => {
-        console.log(data);
+        const result = await authClient.signIn.email({
+            email: data.email,
+            password: data.password,
+        });
+        if (result.error?.status === 401) {
+            form.setError("password", {
+                type: "server",
+                message: "Email o contraseña invalidos",
+            });
+            form.setError("email", {
+                type: "server",
+                message: "Email o contraseña invalidos",
+            });
+        } else {
+            redirect("/");
+        }
     };
+
     return (
         <form id="form-login" onSubmit={form.handleSubmit(submitHandler)}>
             <FieldGroup>
@@ -69,21 +90,14 @@ export default function FormLogin() {
                         <Field data-invalid={fieldState.invalid}>
                             <div className="flex items-center">
                                 <FieldLabel>Contraseña</FieldLabel>
-                                <a
-                                    href="#"
+                                <Link
+                                    href="/forgot-password"
                                     className="ml-auto text-sm underline-offset-4 hover:underline"
                                 >
                                     ¿Olvidaste tu contraseña?
-                                </a>
+                                </Link>
                             </div>
-
-                            <Input
-                                {...field}
-                                required
-                                type="password"
-                                placeholder="*****"
-                                data-invalid={fieldState.invalid}
-                            />
+                            <InputPassword {...field} />
                             {fieldState.invalid && (
                                 <FieldError errors={[fieldState.error]} />
                             )}
@@ -91,34 +105,20 @@ export default function FormLogin() {
                     )}
                 />
                 <Field>
-                    <Button type="submit">Iniciar Session</Button>
+                    <Button
+                        type="submit"
+                        disabled={form.formState.isSubmitting}
+                    >
+                        {form.formState.isSubmitting ? (
+                            <Spinner />
+                        ) : (
+                            "Iniciar Session"
+                        )}
+                    </Button>
                 </Field>
                 <FieldSeparator>O continuar con</FieldSeparator>
                 <Field>
-                    <Button variant="outline" type="button">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                fill="currentColor"
-                                d="M21.805 10.023H12v3.955h5.617c-.242 1.27-.967 2.346-2.06 3.068v2.55h3.328c1.947-1.793 3.07-4.432 3.07-7.596 0-.66-.06-1.293-.15-1.977z"
-                            />
-                            <path
-                                fill="currentColor"
-                                d="M12 22c2.79 0 5.13-.924 6.84-2.504l-3.328-2.55c-.924.62-2.105.986-3.512.986-2.698 0-4.985-1.822-5.802-4.27H2.76v2.684A9.998 9.998 0 0 0 12 22z"
-                            />
-                            <path
-                                fill="currentColor"
-                                d="M6.198 13.662A5.996 5.996 0 0 1 5.88 12c0-.577.104-1.136.318-1.662V7.654H2.76A9.998 9.998 0 0 0 2 12c0 1.61.385 3.133 1.06 4.346z"
-                            />
-                            <path
-                                fill="currentColor"
-                                d="M12 6.068c1.518 0 2.88.522 3.953 1.546l2.963-2.963C17.126 2.987 14.786 2 12 2A9.998 9.998 0 0 0 2.76 7.654l3.438 2.684C7.015 7.89 9.302 6.068 12 6.068z"
-                            />
-                        </svg>
-                        Iniciar sesión con Google
-                    </Button>
+                    <GoogleButton />
                     <FieldDescription className="text-center">
                         ¿No tienes una cuenta?{" "}
                         <Link href="/signup">Crear cuenta</Link>
