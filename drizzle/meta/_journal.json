@@ -15,6 +15,13 @@
       "when": 1781578654451,
       "tag": "0001_jazzy_deathstrike",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1781823927008,
+      "tag": "0002_cuddly_taskmaster",
+      "breakpoints": true
     }
   ]
 }

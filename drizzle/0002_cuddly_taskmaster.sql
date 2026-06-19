@@ -1,0 +1,1 @@
+ALTER TABLE "characters" ALTER COLUMN "owned" SET NOT NULL;

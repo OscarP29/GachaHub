@@ -1,30 +1,13 @@
 import { Elysia } from "elysia";
-import { gamesService } from "./service";
+import { GamesService } from "./service";
 import { GamesModel } from "./models";
 import { betterAuthMiddleware } from "@/elysia/better-auth-middleware";
+import { errorHandler } from "@/elysia/error-handler";
 
 export const games = new Elysia({ prefix: "/games" })
     .use(betterAuthMiddleware)
-    .decorate("gamesService", gamesService)
-    .onError(({ code, error, set, status }) => {
-        if (code === "VALIDATION") {
-            set.status = 400;
-            return {
-                errors: error.all.map((issue) => ({
-                    field: issue.path,
-                    message: issue.message,
-                })),
-            };
-        }
-
-        if (error instanceof Error) {
-            if (error.message === "INVALID_USER") {
-                return status(400);
-            }
-        }
-
-        return ((set.status = 500), { message: "Oops! Something broke." });
-    })
+    .use(errorHandler)
+    .decorate("gamesService", GamesService)
     .get(
         "/",
         async ({ gamesService, user }) => {

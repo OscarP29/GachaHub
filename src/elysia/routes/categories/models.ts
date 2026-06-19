@@ -1,24 +1,26 @@
 import { t } from "elysia";
 import z from "zod";
 
-export const GamesModel = {
-    GamesReponse: z.array(
+export const CategoriesModel = {
+    CategoriesResponse: z.array(
         z.object({
             id: z.number(),
+            gameId: z.number(),
             userId: z.string(),
-            title: z.string(),
-            imageUrl: z.url(),
+            name: z.string(),
+            order: z.number().nullable(),
             createdAt: z.string(),
         }),
     ),
-    GamesInsert: z.object({
-        title: z.string(),
-        imageUrl: z.url(),
+    CategoriesInsert: z.object({
+        gameId: z.number(),
+        name: z.string(),
+        order: z.number(),
     }),
-    GamesUpdate: z
+    CategoriesUpdate: z
         .object({
-            title: z.string(),
-            imageUrl: z.url(),
+            name: z.string(),
+            order: z.number(),
         })
         .partial()
         .refine((data) => Object.keys(data).length > 0, {
@@ -26,5 +28,8 @@ export const GamesModel = {
         }),
     Params: t.Object({
         id: t.Number(),
+    }),
+    Query: t.Object({
+        gameId: t.Number(),
     }),
 };

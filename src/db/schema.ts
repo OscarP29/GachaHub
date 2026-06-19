@@ -131,7 +131,7 @@ export const characters = pgTable("characters", {
     imageUrl: text().notNull(),
     role: roleEnum().notNull(),
     rarity: text(),
-    owned: boolean().default(true),
+    owned: boolean().default(true).notNull(),
     equipmentNotes: text(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
 });

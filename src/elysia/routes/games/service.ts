@@ -5,7 +5,7 @@ import z from "zod";
 import { GamesModel } from "./models";
 import { DatabaseError } from "pg";
 
-export const gamesService = {
+export const GamesService = {
     async getGames(userId: string) {
         const game = await db
             .select()
