@@ -2,7 +2,7 @@ import Profile from "./profile";
 
 export default function HeaderDashboard() {
     return (
-        <header className="w-full h-15 border-b-2 border-muted/50 flex justify-between px-4 items-center bg-sidebar ">
+        <header className="w-full h-15 border-b-2 border-muted/50 flex justify-between px-4 items-center ">
             <div className=" top-4 left-4 flex items-center gap-2 ">
                 <svg
                     width="32"
