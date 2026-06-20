@@ -11,6 +11,20 @@ export const GamesModel = {
             createdAt: z.string(),
         }),
     ),
+    GamesGetResponse: z.object({
+        games: z.array(
+            z.object({
+                id: z.number(),
+                userId: z.string(),
+                title: z.string(),
+                imageUrl: z.url(),
+                createdAt: z.string(),
+            }),
+        ),
+        gamesTotal: z.number(),
+        charactersTotal: z.number(),
+        teamsTotal: z.number(),
+    }),
     GamesInsert: z.object({
         title: z.string(),
         imageUrl: z.url(),

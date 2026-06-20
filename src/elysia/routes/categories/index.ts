@@ -4,7 +4,7 @@ import { Elysia } from "elysia";
 import { CategoriesModel } from "./models";
 import { CategoriesService } from "./service";
 
-export const category = new Elysia({ prefix: "categories" })
+export const categories = new Elysia({ prefix: "categories" })
     .use(betterAuthMiddleware)
     .use(errorHandler)
     .decorate("categoriesService", CategoriesService)

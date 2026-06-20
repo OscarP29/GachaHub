@@ -7,22 +7,37 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 
-export default function GameCharacter() {
+interface GameCharacterProps {
+    character: {
+        id: number;
+        gameId: number;
+        userId: string;
+        name: string;
+        imageUrl: string;
+        role: "dps" | "sub_dps" | "support" | "tank";
+        rarity: string | null;
+        owned: boolean;
+        equipmentNotes: string | null;
+        createdAt: string;
+    };
+}
+
+export default function GameCharacter({ character }: GameCharacterProps) {
     return (
-        <Card>
+        <Card className={`${character.owned ? "" : "grayscale-100"}`}>
             <img
-                src="https://i.pinimg.com/1200x/9c/c8/a3/9cc8a3f374e95fb8f3ae1ab3b696039b.jpg"
+                src={character.imageUrl}
                 alt="Character Image"
-                className=" object-cover"
+                className=" object-cover w-full h-60 object-top"
             />
             <CardHeader>
-                <CardTitle className="truncate max-w-40">
-                    Melidas Asalto
+                <CardTitle className="truncate max-w-40 capitalize">
+                    {character.name}
                 </CardTitle>
                 <CardAction>
-                    <Badge>Sub-dps</Badge>
+                    <Badge className="capitalize">{character.role}</Badge>
                 </CardAction>
-                <CardDescription>SSR</CardDescription>
+                <CardDescription>{character.rarity}</CardDescription>
             </CardHeader>
         </Card>
     );

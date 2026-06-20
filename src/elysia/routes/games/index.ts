@@ -14,7 +14,7 @@ export const games = new Elysia({ prefix: "/games" })
             const games = await gamesService.getGames(user.id);
             return games;
         },
-        { auth: true, response: GamesModel.GamesReponse },
+        { auth: true, response: GamesModel.GamesGetResponse },
     )
     .get(
         "/:id",
@@ -25,7 +25,7 @@ export const games = new Elysia({ prefix: "/games" })
         {
             auth: true,
             params: GamesModel.Params,
-            response: GamesModel.GamesReponse,
+            response: GamesModel.GamesGetResponse,
         },
     )
     .post(

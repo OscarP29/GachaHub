@@ -1,32 +1,37 @@
 import { Input } from "@/components/ui/input";
+import { app } from "@/elysia/client";
 
 import GameCardStats from "@/features/dashboard/games/game-card-stats";
 import GamesContainer from "@/features/dashboard/games/games-container";
 import { Search } from "lucide-react";
+import { headers } from "next/headers";
 
 export default async function Page() {
+    const games = await app.api.games.get({
+        headers: await headers(),
+    });
+    if (!games.data) {
+        console.log(games.error);
+        return <h1>Error</h1>;
+    }
     return (
         <div className="w-full">
             <div className="max-w-350 mx-auto py-4">
                 <div className="grid grid-cols-4 gap-5">
                     <GameCardStats
                         description="Total de juegos"
-                        title="250"
+                        title={games.data.gamesTotal.toString()}
                         icon="controller"
                     />
                     <GameCardStats
                         description="Total de equipos"
-                        title="250"
+                        title={games.data.teamsTotal.toString()}
                         icon="team"
                     />
-                    <GameCardStats
-                        description="Total de notas"
-                        title="250"
-                        icon="note"
-                    />
+
                     <GameCardStats
                         description="Total de personajes"
-                        title="250"
+                        title={games.data.charactersTotal.toString()}
                         icon="character"
                     />
                 </div>
@@ -43,7 +48,7 @@ export default async function Page() {
                             />
                         </div>
                     </div>
-                    <GamesContainer />
+                    <GamesContainer dataGames={games.data.games} />
                 </div>
             </div>
         </div>

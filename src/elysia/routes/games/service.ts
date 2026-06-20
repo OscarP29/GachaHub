@@ -1,30 +1,63 @@
 import { db } from "@/db";
-import { games } from "@/db/schema";
-import { and, DrizzleQueryError, eq } from "drizzle-orm";
+import { characters, games, teams } from "@/db/schema";
+import { and, count, DrizzleQueryError, eq } from "drizzle-orm";
 import z from "zod";
 import { GamesModel } from "./models";
 import { DatabaseError } from "pg";
 
 export const GamesService = {
     async getGames(userId: string) {
-        const game = await db
-            .select()
-            .from(games)
-            .where(eq(games.userId, userId));
-        return game.map((g) => ({
-            ...g,
-            createdAt: g.createdAt.toISOString(),
-        }));
+        const [game, countCharacters, countTeams] = await Promise.all([
+            db.select().from(games).where(eq(games.userId, userId)),
+            db
+                .select({ count: count() })
+                .from(characters)
+                .where(eq(characters.userId, userId)),
+            db
+                .select({ count: count() })
+                .from(teams)
+                .where(eq(teams.userId, userId)),
+        ]);
+        return {
+            games: game.map((g) => ({
+                ...g,
+                createdAt: g.createdAt.toISOString(),
+            })),
+            gamesTotal: game.length,
+            charactersTotal: countCharacters[0].count,
+            teamsTotal: countTeams[0].count,
+        };
     },
     async getGame(id: number, userId: string) {
-        const game = await db
-            .select()
-            .from(games)
-            .where(and(eq(games.id, id), eq(games.userId, userId)));
-        return game.map((g) => ({
-            ...g,
-            createdAt: g.createdAt.toISOString(),
-        }));
+        const [game, countCharacters, countTeams] = await Promise.all([
+            db
+                .select()
+                .from(games)
+                .where(and(eq(games.id, id), eq(games.userId, userId))),
+            db
+                .select({ count: count() })
+                .from(characters)
+                .where(
+                    and(
+                        eq(characters.gameId, id),
+                        eq(characters.userId, userId),
+                    ),
+                ),
+            db
+                .select({ count: count() })
+                .from(teams)
+                .where(and(eq(teams.gameId, id), eq(teams.userId, userId))),
+        ]);
+
+        return {
+            games: game.map((g) => ({
+                ...g,
+                createdAt: g.createdAt.toISOString(),
+            })),
+            gamesTotal: game.length,
+            charactersTotal: countCharacters[0].count,
+            teamsTotal: countTeams[0].count,
+        };
     },
     /**Create new game */
     async createGame(

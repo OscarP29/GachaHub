@@ -3,9 +3,21 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import GameCardStats from "./game-card-stats";
 import { EllipsisVertical } from "lucide-react";
 
-// app/profile/page.tsx (o donde uses este layout)
-
-export default function GameHeader() {
+interface GameHeaderProps {
+    game: {
+        id: number;
+        userId: string;
+        title: string;
+        imageUrl: string;
+    };
+    charactersTotal: number;
+    teamsTotal: number;
+}
+export default function GameHeader({
+    game,
+    charactersTotal,
+    teamsTotal,
+}: GameHeaderProps) {
     return (
         <main>
             <div className="relative w-full h-56">
@@ -21,28 +33,24 @@ export default function GameHeader() {
                     <EllipsisVertical className="absolute right-2 top-4 text-neutral-200" />
                     <div className="flex justify-center -mt-16 mb-3">
                         <Avatar className="w-50 h-50 border-4 border-white dark:border-neutral-800">
-                            <AvatarImage
-                                src={
-                                    "https://i.pinimg.com/1200x/9c/c8/a3/9cc8a3f374e95fb8f3ae1ab3b696039b.jpg"
-                                }
-                            />
+                            <AvatarImage src={game.imageUrl} />
                             <AvatarFallback>GM</AvatarFallback>
                         </Avatar>
                     </div>
 
-                    <h1 className="text-2xl font-medium text-center leading-tight mb-4">
-                        7ds
+                    <h1 className="text-2xl font-medium text-center leading-tight mb-4 capitalize">
+                        {game.title}
                     </h1>
 
                     <div className="border-t border-neutral-200 dark:border-neutral-700 mb-3" />
                     <div className="grid grid-cols-2 gap-2 ">
                         <GameCardStats
-                            title="250"
+                            title={charactersTotal.toString()}
                             description="Personajes"
                             icon="character"
                         />
                         <GameCardStats
-                            title="5"
+                            title={teamsTotal.toString()}
                             description="Equipos"
                             icon="team"
                         />
